@@ -1,13 +1,11 @@
 import styles from "./index.module.css";
 
-
 type Props = {
   x: number;
   y: number;
   timestamp: number;
   value: string;
 };
-
 
 export default function FlyingReaction({ x, y, timestamp, value }: Props) {
   return (

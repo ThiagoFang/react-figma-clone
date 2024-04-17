@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useMyPresence, useOthers } from '@/liveblocks.config'
+import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '@/liveblocks.config'
 import { LiveCursors } from './cursor/LiveCursors';
-import { CursorMode, CursorState, Reaction } from '@/types/type';
+import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
 
 import CursorChat from './cursor/CursorChat';
 import ReactionSelector from './reaction/ReactionButton';
+import FlyingReaction from './reaction/FlyingReaction';
+import useInterval from '@/hooks/useInterval';
 
 export function Live() {
   const others = useOthers();
@@ -15,6 +17,38 @@ export function Live() {
   })
 
   const [reaction, setReaction] = useState<Reaction[]>([]);
+
+  const broadcast = useBroadcastEvent();
+
+  useInterval(() => {
+    setReaction((prev) => prev.filter((r) => r.timestamp > Date.now() - 4000))
+  }, 1000)
+
+  useInterval(() => {
+    if (cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor) {
+      setReaction((prev) => prev.concat([{
+        point: { x: cursor.x, y: cursor.y },
+        value: cursorState.reaction,
+        timestamp: Date.now(),
+      }]))
+
+      broadcast({
+        x: cursor.x,
+        y: cursor.y,
+        value: cursorState.reaction,
+      })
+    }
+  }, 100);
+
+  useEventListener((eventData) => {
+    const event = eventData.event as ReactionEvent;
+
+    setReaction((prev) => prev.concat([{
+      point: { x: event.x, y: event.y },
+      value: event.value,
+      timestamp: Date.now(),
+    }]))
+  })
 
   const handlePointerMove = useCallback((event: React.PointerEvent) => {
     event.preventDefault();
@@ -103,6 +137,15 @@ export function Live() {
       className='w-full h-dvh flex items-center justify-center text-center'
     >
       <h1 className="text-2xl text-white">Hello World</h1>
+
+      {reaction.map((r) => (
+        <FlyingReaction
+          key={r.timestamp.toString()}
+          x={r.point.x} y={r.point.y}
+          timestamp={r.timestamp}
+          value={r.value}
+        />
+      ))}
 
       {cursor && (
         <CursorChat
