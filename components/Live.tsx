@@ -134,7 +134,7 @@ export function Live() {
       onPointerLeave={handlePointerLeave}
       onPointerUp={handlePointerUp}
       onPointerDown={handlePointerDown}
-      className='w-full h-dvh flex items-center justify-center text-center'
+      className='w-full h-screen flex-1 flex items-center justify-center text-center'
     >
       <h1 className="text-2xl text-white">Hello World</h1>
 

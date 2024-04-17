@@ -19,7 +19,7 @@ export default function CursorChat({ cursor, cursorState, setCursorState, update
       message = cursorState.message;
     }
 
-    if (e.key === "Ender") {
+    if (e.key === "Enter") {
       setCursorState({
         mode: CursorMode.Chat,
         previousMessage: message,
@@ -41,7 +41,10 @@ export default function CursorChat({ cursor, cursorState, setCursorState, update
         <>
           <CursorSVG color="#000" />
 
-          <div className="absolute left-2 top-5 bg-blue-500 px-4 py-2 text-sm leading-relaxed text-white rounded-[20px]">
+          <div
+            className="absolute left-2 top-5 bg-blue-500 px-4 py-2 text-sm leading-relaxed text-white rounded-[20px]"
+            onKeyUp={(e) => e.stopPropagation()}
+          >
             {cursorState.previousMessage && (
               <div>
                 {cursorState.previousMessage}
