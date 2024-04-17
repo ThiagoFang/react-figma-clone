@@ -1,7 +1,11 @@
-import { Room } from "./Room";
+"use client"
+
+import { Live } from "@/components/Live";
 
 export default function Page() {
   return (
-    <h1 className="text-2xl text-white">Hello World</h1>
+    <div className="">
+      <Live />
+    </div>
   );
 }
