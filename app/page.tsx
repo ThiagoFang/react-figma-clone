@@ -2,7 +2,7 @@
 
 import { Live } from "@/components/Live";
 import { useEffect, useRef, useState } from "react";
-import { handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
+import { handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp, handleCanvasObjectModified, handleCanvasObjectScaling, handleCanvasSelectionCreated, handlePathCreated, handleResize, initializeFabric, renderCanvas } from "@/lib/canvas";
 import { LeftSidebar } from "@/components/LeftSidebar";
 
 import Navbar from "@/components/Navbar";
@@ -155,6 +155,12 @@ export default function Page() {
       handleCanvasObjectScaling({
         options,
         setElementAttributes,
+      })
+    })
+    canvas.on("path:created", (options) => {
+      handlePathCreated({
+        options,
+        syncShapeInStorage,
       })
     })
 
