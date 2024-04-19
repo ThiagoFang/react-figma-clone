@@ -160,7 +160,7 @@ export default function Page() {
 
     // LISTENER TO RESIZE CANVAS
     window.addEventListener("resize", () => {
-      handleResize({ fabricRef: fabricRef })
+      handleResize({ fabricRef })
     })
 
     // LISTENERS TO UNDO AND REDO
@@ -207,7 +207,7 @@ export default function Page() {
 
       <section className="flex h-full flex-row">
         <LeftSidebar allShapes={Array.from(canvasObjects)} />
-        <Live canvasRef={canvasRef} />
+        <Live canvasRef={canvasRef} undo={undo} redo={redo} />
         <RightSideBar
           elementAttributes={elementAttributes}
           setElementAttributes={setElementAttributes}
