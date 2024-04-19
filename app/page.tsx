@@ -65,7 +65,7 @@ export default function Page() {
 
     if (!canvasObjects || canvasObjects.size === 0) return true;
 
-    for (const [key, value] of canvasObjects.entries()) {
+    for (const key in canvasObjects.entries()) {
       canvasObjects.delete(key);
     }
 
@@ -166,7 +166,7 @@ export default function Page() {
 
     // LISTENER TO RESIZE CANVAS
     window.addEventListener("resize", () => {
-      handleResize({ fabricRef })
+      handleResize({ canvas: fabricRef.current })
     })
 
     // LISTENERS TO UNDO AND REDO

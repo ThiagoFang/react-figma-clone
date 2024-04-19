@@ -11,13 +11,12 @@ export function Room({ children }: { children: ReactNode }) {
   return (
     <RoomProvider
       id="my-room"
-      initialPresence={{
-        cursor: null,
-        cursorColor: null,
-        editingText: null,
-      }}
       initialStorage={{
         canvasObjects: new LiveMap(),
+      }}
+      initialPresence={{
+        cursor: null,
+        message: "",
       }}
     >
       <ClientSideSuspense fallback={<Loader />}>

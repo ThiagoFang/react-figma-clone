@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '@/liveblocks.config'
+import { useBroadcastEvent, useEventListener, useMyPresence } from '@/liveblocks.config'
 import { LiveCursors } from './cursor/LiveCursors';
-import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
+import { CursorMode, CursorState, Reaction } from '@/types/type';
 
 import CursorChat from './cursor/CursorChat';
 import ReactionSelector from './reaction/ReactionButton';
@@ -17,8 +17,7 @@ interface Props {
 }
 
 export function Live({ canvasRef, undo, redo }: Props) {
-  const others = useOthers();
-  const [{ cursor }, updateMyPresence] = useMyPresence() as any;
+  const [{ cursor }, updateMyPresence] = useMyPresence();
 
   const [cursorState, setCursorState] = useState<CursorState>({
     mode: CursorMode.Hidden,
@@ -49,7 +48,7 @@ export function Live({ canvasRef, undo, redo }: Props) {
   }, 100);
 
   useEventListener((eventData) => {
-    const event = eventData.event as ReactionEvent;
+    const event = eventData.event;
 
     setReaction((prev) => prev.concat([{
       point: { x: event.x, y: event.y },
@@ -195,7 +194,7 @@ export function Live({ canvasRef, undo, redo }: Props) {
           <ReactionSelector setReaction={setReactions} />
         )}
 
-        <LiveCursors others={others} />
+        <LiveCursors />
 
         <ContextMenuContent className="right-menu-content">
           {shortcuts.map((item) => (
